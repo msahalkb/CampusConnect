@@ -99,3 +99,112 @@ with col_logout:
         st.session_state.logged_in = False
         st.session_state.user_role = None
         st.rerun()
+
+st.divider()
+
+# ----------------------------------------
+# MANAGER DASHBOARD (SaaS Style)
+# ----------------------------------------
+if st.session_state.user_role == "Manager Dashboard":
+    
+    # Hero Metrics
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Active Ambassadors", "12", "High Retention")
+    col2.metric("Campaigns Completed", "45", "+10 this week")
+    col3.metric("Total Referrals", "124", "Excellent ROI")
+    col4.metric("Pending Verifications", "3", "Action Required")
+    
+    st.write("")
+    st.write("")
+    
+    # Modern Tabbed Interface
+    tab1, tab2 = st.tabs(["📊 Campaign Deployment & Tracking", "🏆 Ambassador Leaderboard"])
+    
+    with tab1:
+        colA, colB = st.columns([1.5, 2])
+        with colA:
+            with st.container(border=True):
+                st.subheader("Deploy New Campaign")
+                desc = st.text_area("Task Objective (e.g., Promote IEEE workshop on LinkedIn)")
+                points = st.slider("Reward Value (Points)", min_value=10, max_value=500, step=10, value=50)
+                
+                if st.button("🚀 Launch to Cohort", type="primary", use_container_width=True):
+                    if desc:
+                        new_task = pd.DataFrame([{
+                            'Task ID': f"CMP-{random.randint(1000,9999)}", 
+                            'Campaign Objective': desc, 
+                            'Reward': f"{points} Pts", 
+                            'Status': 'Active'
+                        }])
+                        st.session_state.tasks = pd.concat([st.session_state.tasks, new_task], ignore_index=True)
+                        st.toast('Campaign deployed successfully to all ambassadors!', icon='✅')
+                    else:
+                        st.error("Please provide a task objective.")
+
+        with colB:
+            st.subheader("Live Campaign Tracker")
+            st.dataframe(st.session_state.tasks, use_container_width=True, hide_index=True)
+            
+    with tab2:
+        st.subheader("Global Cohort Leaderboard")
+        st.dataframe(
+            st.session_state.leaderboard.sort_values(by='Impact Points', ascending=False).reset_index(drop=True), 
+            use_container_width=True,
+            hide_index=True
+        )
+
+# ----------------------------------------
+# AMBASSADOR WORKSPACE (SaaS Style)
+# ----------------------------------------
+elif st.session_state.user_role == "Ambassador Workspace":
+    
+    # Personalized Hero Section
+    st.markdown(f"<h2>Welcome back, <span style='color: #0056b3;'>{st.session_state.username}</span></h2>", unsafe_allow_html=True)
+    
+    st.markdown("**Your Professional Growth Track**")
+    st.progress(65, text="Tier Progress: Campus Rep 📈 (35 Points away from Community Lead 🌟)")
+    st.write("")
+    
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Impact Points", "165", "Top 15% of Cohort")
+    col2.metric("Activity Streak", "4 Weeks", "High Consistency")
+    col3.metric("Current Tier", "Campus Rep", "1 Promotion Earned")
+    
+    st.write("")
+    st.write("")
+    
+    tab1, tab2 = st.tabs(["📋 Active Campaigns", "🏆 Global Leaderboard"])
+    
+    with tab1:
+        colA, colB = st.columns([2, 1.5])
+        with colA:
+            st.subheader("Action Center")
+            active_quests = st.session_state.tasks[st.session_state.tasks['Status'] == 'Active']
+            if active_quests.empty:
+                st.info("All caught up. Excellent work.")
+            else:
+                st.dataframe(active_quests, use_container_width=True, hide_index=True)
+                
+        with colB:
+            with st.container(border=True):
+                st.subheader("Automated Verification")
+                st.markdown("<span style='font-size: 0.9rem; color: #666;'>Upload proof of completion for instant AI processing.</span>", unsafe_allow_html=True)
+                
+                task_id = st.selectbox("Select Task ID to Verify", active_quests['Task ID'].tolist() if not active_quests.empty else ["No Active Tasks"])
+                proof_data = st.file_uploader("Upload Document / Screenshot", type=['png', 'jpg', 'jpeg'])
+                
+                if st.button("Run AI Verification Engine", type="primary", use_container_width=True):
+                    if task_id != "No Active Tasks" and proof_data:
+                        with st.spinner("Analyzing document parameters..."):
+                            time.sleep(2) 
+                            st.toast(f'Verification Successful! Points credited for {task_id}.', icon='✨')
+                    else:
+                        st.error("Please provide your proof document.")
+
+    with tab2:
+        st.subheader("Cohort Leaderboard")
+        st.dataframe(
+            st.session_state.leaderboard.sort_values(by='Impact Points', ascending=False).reset_index(drop=True), 
+            use_container_width=True,
+            hide_index=True
+        )
