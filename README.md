@@ -54,11 +54,7 @@ Built entirely in Python, utilizing Streamlit for rapid frontend deployment and 
 If you prefer to run the application on your local machine rather than using the hosted link:
 
 1. **Clone the repository:**
-```bash
-git clone https://github.com/msahalkb/CampusConnect.git
-cd YOUR_REPO_NAME
-```
-
+   https://github.com/msahalkb/CampusConnect.git
 2. **Install the dependencies:**
 ```bash
 pip install -r requirements.txt
