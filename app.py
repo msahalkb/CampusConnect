@@ -49,7 +49,7 @@ if 'user_role' not in st.session_state:
 
 if 'tasks' not in st.session_state:
     st.session_state.tasks = pd.DataFrame(columns=['Task ID', 'Campaign Objective', 'Reward', 'Status'])
-    st.session_state.tasks.loc[0] = ['CMP-1001', 'Share Hackathon Registration in 3 CUSAT WhatsApp Groups', '50 Pts', 'Active']
+    st.session_state.tasks.loc[0] = ['CMP-1001', 'Share Hackathon Registration in 3 Students WhatsApp Groups', '50 Pts', 'Active']
     st.session_state.tasks.loc[1] = ['CMP-1002', 'Secure 5 confirmed sign-ups via personal referral link', '100 Pts', 'Active']
 
 if 'leaderboard' not in st.session_state:
