@@ -6,7 +6,7 @@ Organizations rely on Campus Ambassadors to build brand presence, yet most progr
 
 **CampusConnect** solves this. It is a centralized SaaS platform where organizations onboard ambassadors, deploy campaigns, and track engagement—and where ambassadors earn tiered recognition for every contribution they make.
 
-### 🌐 [Click Here to View the Live Hosted Platform](campusconnecter.streamlit.app)
+### 🌐 [Click Here to View the Live Hosted Platform].(https://campusconnecter.streamlit.app/)
 ### 📹 [Click Here to Watch the 3-Minute Demo Video](https://youtu.be/dQ6jTeRxeeQ)
 
 ---
