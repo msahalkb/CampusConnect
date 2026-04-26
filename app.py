@@ -96,3 +96,6 @@ with col_logo:
     st.markdown(f"### 🌐 CampusConnect | <span style='font-size: 1.2rem; font-weight: normal; color: #666;'>{st.session_state.user_role}</span>", unsafe_allow_html=True)
 with col_logout:
     if st.button("Secure Logout", use_container_width=True):
+        st.session_state.logged_in = False
+        st.session_state.user_role = None
+        st.rerun()
